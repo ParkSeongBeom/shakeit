@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mythings.shackit.db.mapper.UserMapper">
+
+    <insert id="insert" parameterType="AreaBoardEntity">
+        INSERT INTO area_boards (
+                                   area_idx
+                                 , board_serial
+        ) VALUES (
+                     #{areaIdx}
+                 , #{boardSerial}
+                 )
+    </insert>
+
+    <delete id="delete" parameterType="hashmap">
+        DELETE FROM
+        area_boards
+        WHERE
+        <if test="boardSerial != null">board_serial = #{boardSerial}</if>
+        <if test="areaIdx != null">area_idx = #{areaIdx}</if>
+    </delete>
+
+    <select id="select" parameterType="hashmap" resultType="AreaBoardEntity">
+        SELECT
+        A.area_idx
+        , A.board_serial
+        FROM
+        area_boards A
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="areaIdx != null">AND A.area_idx = #{areaIdx}</if>
+            <if test="boardSerial != null">AND A.board_serial = #{boardSerial}</if>
+        </trim>
+    </select>
+
+</mapper>

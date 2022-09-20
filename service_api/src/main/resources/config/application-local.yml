@@ -1,0 +1,19 @@
+spring:
+  profiles: local
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://iot-dev2.ci1ts0fbqg3e.ap-northeast-2.rds.amazonaws.com:3306/iot_dev
+      username: admin
+      password: akdlEldtm123
+      maximum-pool-size: 16
+  flyway:
+    user: admin
+    password: akdlEldtm123
+    url: jdbc:mysql://iot-dev2.ci1ts0fbqg3e.ap-northeast-2.rds.amazonaws.com:3306/iot_dev
+    baseline-on-migrate: true
+    baseline-version: 2.1
+url:
+  rule: http://localhost:8387
+  vms: http://3.35.133.1:8187
+server:
+  port: 8287

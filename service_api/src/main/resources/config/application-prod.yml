@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://portable.ci1ts0fbqg3e.ap-northeast-2.rds.amazonaws.com:3306/iot
+      username: admin
+      password: akdlEldtm123
+      maximum-pool-size: 16
+  flyway:
+    user: admin
+    password: akdlEldtm123
+    url: jdbc:mysql://portable.ci1ts0fbqg3e.ap-northeast-2.rds.amazonaws.com:3306/iot
+    baseline-on-migrate: true
+    baseline-version: 12.1
+  config:
+    activate:
+      on-profile: lgprd
+  application:
+    name: shakeItApi
+#push:
+#  key:
+#    aws-accesskey: AKIA2TOKTMELACP6RRDU
+#    aws-secretkey: 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
+#    android: AAAAg40gqsQ:APA91bGisyb3mMiG5wjoSwIlxcv9zDv3dkYlHaZpzqcx7MxFyjNIgvu1qVf1B6ovue-iVZrw_b3CwhaJGLYpoIu3z08v-SGvDQ6-ihAaLUis-EaKA8s4cL4n-AwNgq5Gz0hbMEYT6uIJ
+server:
+  port: 8187
+
+#file:
+#  s3:
+#    useFlag: Y
+#    accessKeyId: ENC(OYZYvbIsa2ezSROs3K+xBIq4lmniVC1Xuz/7rW0x1xc=)
+#    secretAccessKey: ENC(vBOhQe4JFFNbYfJMRjS3dmQ+RkVNEzr6Sa2dQPqDhHQ4HdR9L0/VIwAUr21xoXOjdqqmHW6jKrU=)
+#    bucketName: prd-lguplus-s3
+#    bucketUrl: https://prd-lguplus-s3.s3.ap-northeast-2.amazonaws.com
+#    fileUploadPath: unews/

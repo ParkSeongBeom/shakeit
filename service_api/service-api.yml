@@ -1,0 +1,267 @@
+openapi: 3.0.1
+info:
+  title: Shake it
+  description: 'This is a sample server Petstore server.  You can find out more about     Swagger
+    at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For
+    this sample, you can use the api key `special-key` to test the authorization filters.'
+  contact:
+    email: meous@mythings.co.kr
+  version: 1.0.0
+servers: [
+  {
+    "url": "http://localhost:8187",
+    "description": "Local server"
+  },{
+    "url": "https://미정/",
+    "description": "Product server"
+  }
+]
+tags:
+- name: User
+  description: 사용자
+- name: Term
+  description: 동의항목
+- name: Situation
+  description: 상황
+- name: SubSituation
+  description: 하위상황
+- name: Word
+  description: 단어
+- name: Sentence
+  description: 문장
+- name: Quiz
+  description: 퀴즈
+- name: Tag
+  description: 태그
+paths:
+  /user/login:
+    post:
+      tags:
+      - User
+      summary: 로그인
+      operationId: loginUser
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                user_password:
+                  type: string
+                login_device:
+                  $ref: '#/components/schemas/UserDevice'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      login_token:
+                        type: string
+                      user_info:
+                        $ref: '#/components/schemas/User'
+        400:
+          description: Invalid username/password supplied
+          content: {}
+  /user/valid:
+    post:
+      tags:
+      - User
+      summary: 로그인토큰 검증
+      operationId: validUser
+      security:
+      - TokenAuth: []
+      responses:
+        200:
+          description: successful operation
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      login_token:
+                        type: string
+                      user_info:
+                        $ref: '#/components/schemas/User'
+      x-codegen-request-body-name: body
+  /user/regist:
+    post:
+      tags:
+        - User
+      summary: 회원가입
+      operationId: registUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  data:
+                    type: boolean
+      x-codegen-request-body-name: body
+  /user/edit:
+    post:
+      tags:
+        - User
+      summary: 사용자수정
+      operationId: editUser
+      security:
+        - TokenAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick_name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: boolean
+      x-codegen-request-body-name: body
+  /user/withdrawal:
+    post:
+      tags:
+        - User
+      summary: 회원탈퇴
+      operationId: withdrawalUser
+      security:
+        - TokenAuth: []
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  data:
+                    type: boolean
+      x-codegen-request-body-name: body
+
+  /term/list:
+    post:
+      tags:
+        - Term
+      summary: 동의항목조회
+      operationId: termList
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      term_list:
+                        $ref: '#/components/schemas/Term'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_idx:
+          description: 사용자인덱스
+          type: integer
+        nick_name:
+          description: 닉네임
+          type: string
+        email:
+          description: 이메일
+          type: string
+      xml:
+        name: User
+    UserDevice:
+      type: object
+      properties:
+        device_uuid:
+          description: 단말기UUID
+          type: string
+        device_name:
+          description: 단말기이름
+          type: string
+        device_type:
+          description: 단말기타입 (1:Web 2:iOS 3:Android)
+          type: integer
+        device_os:
+          description: 단말기OS
+          type: string
+        push_token:
+          description: 푸시토큰
+          type: string
+      xml:
+        name: Term
+    Term:
+      type: object
+      properties:
+        term_idx:
+          description: 약관인덱스
+          type: integer
+        term_name:
+          description: 약관이름
+          type: string
+        msg:
+          description: 약관내용
+          type: string
+        required_yn:
+          description: 필수동의여부 (Y/N)
+          type: string
+      xml:
+        name: Term
+  securitySchemes:
+    TokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,20 @@
+bootJar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':core')
+
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // AWS S3
+    implementation 'software.amazon.awssdk:s3:2.17.191'
+
+    // JSON
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // H2 DataBase TEST
+    runtimeOnly 'com.h2database:h2'
+}

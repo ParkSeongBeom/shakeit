@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.mythings.shackit.core.db.mapper.UserMapper">
+
+    <select id="list" parameterType="hashmap" resultType="UserEntity">
+        SELECT  USER_IDX
+                ,NICK_NAME
+                ,EMAIL
+                ,PASSWORD
+                ,PASSWORD_SALT
+                ,FILE_NAME
+                ,FILE_URL
+                ,DEL_YN
+                ,CREATE_AT
+        FROM    USER
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="areaIdx != null">AND A.area_idx = #{areaIdx}</if>
+            <if test="boardSerial != null">AND A.board_serial = #{boardSerial}</if>
+        </trim>
+    </select>
+
+    <insert id="insert" parameterType="UserEntity">
+        INSERT INTO USER (
+            NICK_NAME
+            ,EMAIL
+            ,PASSWORD
+            ,PASSWORD_SALT
+            ,FILE_NAME
+            ,FILE_URL
+            ,DEL_YN
+            ,CREATE_AT
+        ) VALUES (
+            #{nickName}
+            ,#{email}
+            ,#{password}
+            ,#{passwordSalt}
+            ,#{fileName}
+            ,#{fileUrl}
+            ,#{delYn}
+            ,#{createAt}
+        )
+    </insert>
+
+    <update id="update" parameterType="UserEntity">
+        UPDATE USER
+        SET UPDATE_AT = #{updateAt}
+        <if test="nickName != null">NICK_NAME = #{nickName}</if>
+        <if test="email != null">EMAIL = #{email}</if>
+        <if test="password != null">PASSWORD = #{password}</if>
+        <if test="passwordSalt != null">PASSWORD_SALT = #{passwordSalt}</if>
+        <if test="fileName != null">FILE_NAME = #{fileName}</if>
+        <if test="fileUrl != null">FILE_URL = #{fileUrl}</if>
+        <if test="delYn != null">DEL_YN = #{delYn}</if>
+        WHERE USER_IDX = #{userIdx}
+    </update>
+</mapper>

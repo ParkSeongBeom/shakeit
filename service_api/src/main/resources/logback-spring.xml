@@ -1,0 +1,45 @@
+<configuration>
+
+    <property name="FILE_NAME" value="shake_it_api" />
+
+    <property name="SAVE_DAYS" value="7" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%d{HH:mm:ss,GMT+0900}] [%thread] %highlight(%-5level) %cyan(%logger{26}) - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${FILE_NAME}.log</file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%d{HH:mm:ss,GMT+0900}] [%thread] %highlight(%-5level) %cyan(%-50logger{50}) [%-20.20method:%4line] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>${SAVE_DAYS}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG" />
+
+    <logger name="kr.co.mythings.iot" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.springframework" level="INFO">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <logger name="org.mybatis" level="WARN">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
